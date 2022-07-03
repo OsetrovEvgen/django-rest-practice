@@ -10,6 +10,7 @@ class User:
         self.gender = gender
         self.email = email
 
+
 users = [
     User(1, 12, "male", "mail1@gmail.com"),
     User(2, 22, "male", "mail2@gmail.com"),
@@ -20,6 +21,7 @@ users = [
     User(7, 62, "female", "mail7@gmail.com"),
     User(8, 82, "male", "mail8@gmail.com"),
 ]
+
 
 def users_to_json(users):
     res = []
@@ -35,17 +37,13 @@ class GetUsersList(APIView):
         gender_param = request.GET.get("gender", None)
         mail_param = request.GET.get("mail", None)
 
-        set1 = {}
-        set1 = set(set1)
+        res = []
+
         for i in users:
-            if id_param!=None and str(i.id)==id_param:
-                set1.add(i)
-            if age_param!=None and str(i.age)==age_param:
-                set1.add(i)
-            if gender_param!=None and str(i.gender)==gender_param:
-                set1.add(i)
-            if mail_param!=None and str(i.email)==mail_param:
-                set1.add(i)
+            if (not id_param or str(i.id) == id_param) \
+                    and (not age_param or str(i.age) == age_param)\
+                    and (not gender_param or str(i.gender) == gender_param)\
+                    and (not mail_param or str(i.email) == mail_param):
+                res.append(i)
+        return Response(users_to_json(res))
 
-
-        return Response(users_to_json(set1))
