@@ -72,5 +72,4 @@ class UsersList(APIView):
 
         return Response(request)
 
-for i in users:
-    if i['age'] == query:
+
